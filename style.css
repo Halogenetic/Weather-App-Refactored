@@ -121,6 +121,5 @@ body {
   #myChart, #chart2 {
     border: 2px grey solid;
     height: 150px;
-    width: 200px;
-    background-color: wheat;
+    background-color: grey;
   }
