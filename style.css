@@ -114,12 +114,36 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 50px;
+    justify-content: space-between;
+    margin-top: 30px;
   }
 
-  #myChart, #chart2 {
-    border: 2px grey solid;
-    height: 150px;
-    background-color: grey;
+  .container, .container2 {
+    text-transform: capitalize;
+    width: 10vw;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+  }
+
+  h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 30px;
+  }
+
+  h2 {
+
+    font-size: 30px;
+  }
+
+  #myChart, #myChart2{
+    color:white;
+    border-radius: 30px;
+    max-width: 300px;
+    max-height: 200px;
+
+    
   }

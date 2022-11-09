@@ -1,7 +1,6 @@
 const weatherForm = document.getElementById('cityName')
 const weatherByDay = [[], [], [], [], []]
 const weatherByDay2 = [[], [], [], [], []]
-const container2 = document.querySelectorAll('.container2')
 const comparebutton = document.querySelector(".compare")
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
@@ -12,7 +11,6 @@ const getWeather = (cityName) =>{
 		fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&units=metric&appid=ac96025e898eaaa90f32fb998527b49f`)
 		.then(response => response.json())
 		.then((data) => {
-      console.log("heyjesuisla")
       const weatherByDay = [[], [], [], [], []]
 			let i = 0
 			let c = 0
@@ -39,6 +37,7 @@ const getWeather = (cityName) =>{
       const createh2 = document.createElement("h2")
       const createh1 = document.createElement("h1")
       const createflex = document.createElement("div")
+      createflex.classList.add("flex")
       const createimg = document.createElement("img")
       createflex.append(createimg)
       const createdes = document.createElement("div")
@@ -50,12 +49,12 @@ const getWeather = (cityName) =>{
       let container = document.querySelectorAll('.container')
       let date = new Date(data.list[h].dt_txt)
 
-      container[p].children[0].innerHTML=(cityName+" "+(weekday[date.getDay()]))
+      container[p].children[0].innerHTML=(cityName+"<br>"+(weekday[date.getDay()]))
       container[p].children[1].innerHTML=(weatherByDay[p][0].main.temp+"°")
       container[p].children[2].children[0].src ="https://openweathermap.org/img/wn/" + weatherByDay[p][0].weather[0].icon + ".png"
       container[p].children[2].children[1].innerHTML=(weatherByDay[p][0].weather[0].description)
-      container[p].children[3].innerHTML=("Humidity: "+ weatherByDay[p][0].main.humidity)
-      container[p].children[4].innerHTML=("Wind: "+ weatherByDay[p][0].wind.speed)
+      container[p].children[3].innerHTML=("Humidity: "+ weatherByDay[p][0].main.humidity+"°")
+      container[p].children[4].innerHTML=("Wind: "+ weatherByDay[p][0].wind.speed+" km/h")
 
       h = h + 8
       }
@@ -63,31 +62,59 @@ const getWeather = (cityName) =>{
       document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + cityName + "')"
       const remember = localStorage.setItem("choice", cityName)
       
-      var xyValues = [
-        {x:1, y:(weatherByDay[0][0].main.temp)},
-        {x:2, y:(weatherByDay[1][0].main.temp)},
-        {x:3, y:(weatherByDay[2][0].main.temp)},
-        {x:4, y:(weatherByDay[3][0].main.temp)},
-        {x:5, y:(weatherByDay[4][0].main.temp)},
-      ]
-      
-      new Chart("myChart", {
-        type: "scatter",
-        data: {
-          datasets: [{
-            pointRadius: 4,
-            pointBackgroundColor: "rgb(0,0,255)",
-            data: xyValues
-          }]
-        },
-        options: {
-          legend: {display: false},
-          scales: {
-            xAxes: [{ticks: {min: 1, max:5}}],
-            yAxes: [{ticks: {min: -5, max:30}}],
-          }
-        }
-      })
+      let myChart = null
+
+ var xyValues = [
+  
+  {x:1, y:(weatherByDay[0][0].main.temp)},
+  {x:2, y:(weatherByDay[1][0].main.temp)},
+  {x:3, y:(weatherByDay[2][0].main.temp)},
+  {x:4, y:(weatherByDay[3][0].main.temp)},
+  {x:5, y:(weatherByDay[4][0].main.temp)},
+]
+
+const ctx = document.getElementById('myChart').getContext('2d');
+const config = {
+   type: 'bar',
+   data: {
+       labels: ["1", "2", "3", "4", "5"], 
+       datasets: [{
+           label: 'Temperature',
+           data: xyValues, 
+           backgroundColor: [
+               'rgba(255, 99, 132, 0.2)',
+               'rgba(54, 162, 235, 0.2)',
+               'rgba(255, 206, 86, 0.2)',
+               'rgba(75, 192, 192, 0.2)',
+               'rgba(153, 102, 255, 0.2)',
+               'rgba(255, 159, 64, 0.2)'
+           ],
+           borderColor: [
+               'rgba(255, 99, 132, 1)',
+               'rgba(54, 162, 235, 1)',
+               'rgba(255, 206, 86, 1)',
+               'rgba(75, 192, 192, 1)',
+               'rgba(153, 102, 255, 1)',
+               'rgba(255, 159, 64, 1)'
+           ],
+           borderWidth: 1
+       }]
+   },
+   options: {
+       scales: {
+           y: {
+               beginAtZero: true
+           }
+       }
+   }
+  
+ };
+ if (Chart.getChart("myChart")){
+  Chart.getChart("myChart").destroy();
+}
+
+myChart=new Chart(ctx,config)
+
 		})
 	})
 }
@@ -125,6 +152,7 @@ const getWeather2 = (cityName) =>{
         const createh2 = document.createElement("h2")
         const createh1 = document.createElement("h1")
         const createflex = document.createElement("div")
+        createflex.classList.add("flex")
         const createimg = document.createElement("img")
         createflex.append(createimg)
         const createdes = document.createElement("div")
@@ -136,58 +164,84 @@ const getWeather2 = (cityName) =>{
         let container = document.querySelectorAll('.container2')
         let date = new Date(data.list[h].dt_txt)
 
-        container[p].children[0].innerHTML=(cityName+" "+(weekday[date.getDay()]))
+        container[p].children[0].innerHTML=(cityName+"<br>"+(weekday[date.getDay()]))
         container[p].children[1].innerHTML=(weatherByDay2[p][0].main.temp+"°")
         container[p].children[2].children[0].src ="https://openweathermap.org/img/wn/" + weatherByDay2[p][0].weather[0].icon + ".png"
         container[p].children[2].children[1].innerHTML=(weatherByDay2[p][0].weather[0].description)
-        container[p].children[3].innerHTML=("Humidity: "+ weatherByDay2[p][0].main.humidity)
-        container[p].children[4].innerHTML=("Wind: "+ weatherByDay2[p][0].wind.speed)
+        container[p].children[3].innerHTML=("Humidity: "+ weatherByDay2[p][0].main.humidity+"°")
+        container[p].children[4].innerHTML=("Wind: "+ weatherByDay2[p][0].wind.speed+" km/h")
         h = h + 8
         }
 
       document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + cityName + "')"
       const remember = localStorage.setItem("choice", cityName)
 
-      var xyValues = [
-        {x:1, y:(weatherByDay2[0][0].main.temp)},
-        {x:2, y:(weatherByDay2[1][0].main.temp)},
-        {x:3, y:(weatherByDay2[2][0].main.temp)},
-        {x:4, y:(weatherByDay2[3][0].main.temp)},
-        {x:5, y:(weatherByDay2[4][0].main.temp)},
-      ]
+      let myChart2 = null
 
-      new Chart("chart2", {
-        type: "scatter",
+      var xyValues = [
+       
+       {x:1, y:(weatherByDay2[0][0].main.temp)},
+       {x:2, y:(weatherByDay2[1][0].main.temp)},
+       {x:3, y:(weatherByDay2[2][0].main.temp)},
+       {x:4, y:(weatherByDay2[3][0].main.temp)},
+       {x:5, y:(weatherByDay2[4][0].main.temp)},
+     ]
+     
+     const ctx = document.getElementById('myChart2').getContext('2d');
+     const config = {
+        type: 'bar',
         data: {
-          datasets: [{
-            pointRadius: 4,
-            pointBackgroundColor: "rgb(0,0,255)",
-            data: xyValues
-          }]
+            labels: ["1", "2", "3", "4", "5"], 
+            datasets: [{
+                label: 'Temperature',
+                data: xyValues, 
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
         },
         options: {
-          legend: {display: false},
-          scales: {
-            xAxes: [{ticks: {min: 1, max:5}}],
-            yAxes: [{ticks: {min: -5, max:30}}],
-          }
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
-      })
-    })
-  })
-}
+       
+      };
+      if (Chart.getChart("myChart2")){
+       Chart.getChart("myChart2").destroy();
+     }
+     
+     myChart2=new Chart(ctx,config)
+     
+         })
+       })
+     }
 
 weatherForm.addEventListener('submit', (event) => {
 	event.preventDefault()
 	let formData = Object.fromEntries(new FormData(weatherForm))
-	console.log(formData)
 	getWeather(formData.city)
 })
 
 comparebutton.addEventListener('click', (event) => {
 	event.preventDefault()
 	let formData = Object.fromEntries(new FormData(weatherForm))
-	console.log(formData)
 	getWeather2(formData.city)
 })
 
