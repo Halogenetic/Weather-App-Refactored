@@ -60,7 +60,7 @@ const getWeather = (cityName) =>{
       }
 
       document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + cityName + "')"
-      const remember = localStorage.setItem("choice", cityName)
+      const remember = localStorage.setItem("lastEntry", cityName)
       
       let myChart = null
 
@@ -174,7 +174,7 @@ const getWeather2 = (cityName) =>{
         }
 
       document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + cityName + "')"
-      const remember = localStorage.setItem("choice", cityName)
+      const remember = localStorage.setItem("lastEntry", cityName)
 
       let myChart2 = null
 
@@ -245,4 +245,5 @@ comparebutton.addEventListener('click', (event) => {
 	getWeather2(formData.city)
 })
 
-getWeather(localStorage.getItem("choice"))
+if (localStorage.getItem("lastEntry") !== "null"){
+getWeather(localStorage.getItem("lastEntry"))}
