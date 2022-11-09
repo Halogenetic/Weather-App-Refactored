@@ -53,7 +53,7 @@ const getWeather = (cityName) =>{
       container[p].children[1].innerHTML=(weatherByDay[p][0].main.temp+"°")
       container[p].children[2].children[0].src ="https://openweathermap.org/img/wn/" + weatherByDay[p][0].weather[0].icon + ".png"
       container[p].children[2].children[1].innerHTML=(weatherByDay[p][0].weather[0].description)
-      container[p].children[3].innerHTML=("Humidity: "+ weatherByDay[p][0].main.humidity+"°")
+      container[p].children[3].innerHTML=("Humidity: "+ weatherByDay[p][0].main.humidity+"%")
       container[p].children[4].innerHTML=("Wind: "+ weatherByDay[p][0].wind.speed+" km/h")
 
       h = h + 8
@@ -168,7 +168,7 @@ const getWeather2 = (cityName) =>{
         container[p].children[1].innerHTML=(weatherByDay2[p][0].main.temp+"°")
         container[p].children[2].children[0].src ="https://openweathermap.org/img/wn/" + weatherByDay2[p][0].weather[0].icon + ".png"
         container[p].children[2].children[1].innerHTML=(weatherByDay2[p][0].weather[0].description)
-        container[p].children[3].innerHTML=("Humidity: "+ weatherByDay2[p][0].main.humidity+"°")
+        container[p].children[3].innerHTML=("Humidity: "+ weatherByDay2[p][0].main.humidity+"%")
         container[p].children[4].innerHTML=("Wind: "+ weatherByDay2[p][0].wind.speed+" km/h")
         h = h + 8
         }
